@@ -4,10 +4,17 @@ import mk.ukim.finki.wp.kol2022.g3.model.ForumUser;
 import mk.ukim.finki.wp.kol2022.g3.model.ForumUserType;
 import mk.ukim.finki.wp.kol2022.g3.service.ForumUserService;
 import mk.ukim.finki.wp.kol2022.g3.service.InterestService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Controller
 public class ForumUsersController {
 
     private final ForumUserService service;
@@ -25,14 +32,20 @@ public class ForumUsersController {
      *
      * @return The view "list.html".
      */
-    public String showList(Long interestId, Integer age) {
+
+    @GetMapping({"/", "/users"})
+    public String showList(@RequestParam(required = false) Long interestId,
+                           @RequestParam(required = false) Integer age,
+                           Model model) {
         List<ForumUser> forumUsers;
         if (interestId == null && age == null) {
             forumUsers = this.service.listAll();
         } else {
             forumUsers = this.service.filter(interestId, age);
         }
-        return "";
+        model.addAttribute("users",forumUsers);
+        model.addAttribute("types",ForumUserType.values());
+        return "list";
     }
 
     /**
@@ -41,8 +54,11 @@ public class ForumUsersController {
      *
      * @return The view "form.html".
      */
-    public String showAdd() {
-        return "";
+
+    @GetMapping("/users/add")
+    public String showAdd(Model model) {
+        model.addAttribute("types",ForumUserType.values());
+        return "form";
     }
 
     /**
@@ -63,14 +79,16 @@ public class ForumUsersController {
      *
      * @return The view "list.html".
      */
-    public String create(String name,
-                         String email,
-                         String password,
-                         ForumUserType type,
-                         List<Long> interestId,
-                         LocalDate birthday) {
+
+    @PostMapping("/users")
+    public String create(@RequestParam String name,
+                         @RequestParam String email,
+                         @RequestParam String password,
+                         @RequestParam ForumUserType type,
+                         @RequestParam List<Long> interestId,
+                         @RequestParam LocalDate birthday) {
         this.service.create(name, email, password, type, interestId, birthday);
-        return "";
+        return "list";
     }
 
     /**
@@ -98,8 +116,10 @@ public class ForumUsersController {
      *
      * @return The view "list.html".
      */
-    public String delete(Long id) {
+
+    @PostMapping("/users/{id}/delete")
+    public String delete(@PathVariable Long id) {
         this.service.delete(id);
-        return "";
+        return "redirect:/users";
     }
 }

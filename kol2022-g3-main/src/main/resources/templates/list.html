@@ -20,7 +20,7 @@
     </form>
     <div>
         <!-- ForumUsersController.showAdd (Only ADMIN can see this element)-->
-        <a href="" class="add-item">
+        <a href="/users/add" class="add-item">
             Add
         </a>
     </div>
@@ -33,17 +33,18 @@
             <th>Actions</th>
         </tr>
         <!-- For each user you should have one <tr> like below -->
-        <tr class="item">
-            <td>[user.name]</td>
-            <td>[user.email]</td>
-            <td>[user.type]</td>
+        <tr class="item" th:each="user : ${users}">
+            <td th:text="${user.name}">[user.name]</td>
+            <td th:text="${user.email}">[user.email]</td>
+            <td th:text="${user.type}">[user.type]</td>
             <td>
                 <!-- For each of the user.interests show the following element-->
-                <span class="item-rel"> [interest.name]</span>
+                <span class="item-rel" th:each="interest : ${user.interests}" th:text="${interest.name}"> [interest.name]</span>
             </td>
             <td>
                 <!-- ForumUsersController.delete (Only ADMIN can see this element)-->
-                <form>
+                <form th:action="@{'/users/{id}/delete' (id=${user.id})}"
+                      method="post">
                     <button type="submit" class="delete-item">Delete</button>
                 </form>
                 <!-- ForumUsersController.showEdit (Only ADMIN can see this element)-->
