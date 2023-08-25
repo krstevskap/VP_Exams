@@ -9,20 +9,20 @@
     <!-- The form below should invoke the method EmployeeController.showNews -->
     <form id="filter-form">
         <label for="f1">YearsOfService</label>
-        <input id="f1" type="number"/>
+        <input id="f1" type="number" name="yearsOfService"/>
         <label for="f2">Skill</label>
-        <select id="f2">
+        <select id="f2" name="skillId">
             <option value="">All</option>
             <!-- For each skill you should have one <option> like below  -->
-            <option> [skill]</option>
+            <option th:each="skill : ${skills}" th:text="${skill.name}" th:value="${skill.id}"></option>
         </select>
         <button id="filter" type="submit">Filter</button>
     </form>
     <th:block sec:authorize="hasRole('ROLE_ADMIN')">
         <!-- EmployeeController.showAdd (Only ADMIN can see this element)-->
-            <a href="/employees/add" class="add-item">
-                Add
-            </a>
+        <a href="/employees/add" class="add-item">
+            Add
+        </a>
     </th:block>
     <table>
         <tr>
@@ -37,11 +37,11 @@
             <td th:text="${e.name}"></td>
             <td th:text="${e.email}"></td>
             <td th:text="${e.type}"></td>
-            <td >
+            <td>
                 <!-- For each of the employee.skills show the following element-->
                 <span th:each="skill : ${e.skills}" th:text="${skill.name}" class="item-rel"></span>
             </td>
-            <td >
+            <td>
                 <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                     <!-- EmployeeController.delete (Only ADMIN can see this element)-->
                     <form th:action="@{'/employees/{id}/delete' (id=${e.id})}"

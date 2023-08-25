@@ -24,7 +24,7 @@ public class LoginService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         Employee emp = employeeRepository.findByEmail(s);
-        if(emp == null)
+        if (emp == null)
             throw new UsernameNotFoundException("Notfound");
         return User.builder().
                 username(emp.getEmail())

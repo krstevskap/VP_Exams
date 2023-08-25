@@ -42,7 +42,9 @@ public class EmployeeController {
         } else {
             employees = this.service.filter(skillId, yearsOfService);
         }
-        model.addAttribute("employees",employees);
+        List<Skill> skills = skillService.listAll();
+        model.addAttribute("employees", employees);
+        model.addAttribute("skills", skills);
         return "list";
     }
 
@@ -56,7 +58,7 @@ public class EmployeeController {
     public String showAdd(Model model) {
         List<Skill> skills = skillService.listAll();
         model.addAttribute("employee", new Employee());
-        model.addAttribute("skills",skills);
+        model.addAttribute("skills", skills);
         model.addAttribute("types", EmployeeType.values());
         return "form";
     }
@@ -73,8 +75,8 @@ public class EmployeeController {
     public String showEdit(@PathVariable Long id, Model model) {
         Employee employee = service.findById(id);
         List<Skill> skills = skillService.listAll();
-        model.addAttribute("skills",skills);
-        model.addAttribute("employee",employee);
+        model.addAttribute("skills", skills);
+        model.addAttribute("employee", employee);
         model.addAttribute("types", EmployeeType.values());
         return "form";
     }

@@ -64,6 +64,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> filter(Long skillId, Integer yearsOfService) {
-        return null;
+        if (skillId != null && yearsOfService != null) {
+            Skill skill = skillRepository.getById(skillId);
+            LocalDate date = LocalDate.now().minusYears(yearsOfService);
+            return employeeRepository.findAllByEmploymentDateBeforeAndSkillsContaining(date, skill);
+        } else if (skillId != null) {
+            Skill skill = skillRepository.getById(skillId);
+            return employeeRepository.findBySkillsContaining(skill);
+        } else if (yearsOfService != null) {
+            LocalDate date = LocalDate.now().minusYears(yearsOfService);
+            return employeeRepository.findByEmploymentDateBefore(date);
+        } else return employeeRepository.findAll();
     }
 }
