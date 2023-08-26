@@ -48,7 +48,7 @@
     </div>
     <div>
         <label>Skills</label><br/>
-        <select id="f5"  multiple="multiple" name="skillId">
+        <select id="f5" multiple="multiple" name="skillId">
             <!-- For each skill you should have one <option> like below  -->
             <option th:each="skill : ${skills}"
                     th:value="${skill.id}"

@@ -48,7 +48,7 @@
                     <button type="submit" class="delete-item">Delete</button>
                 </form>
                 <!-- ForumUsersController.showEdit (Only ADMIN can see this element)-->
-                <a class="edit-item">Edit</a>
+                <a th:href="@{'/users/{id}/edit' (id=${user.id})}" class="edit-item">Edit</a>
             </td>
         </tr>
     </table>

@@ -34,7 +34,7 @@ public class ForumUser {
     @Enumerated(value = EnumType.STRING)
     private ForumUserType type;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Interest> interests;
 
     public Long getId() {
