@@ -45,6 +45,7 @@ public class ForumUsersController {
             forumUsers = this.service.filter(interestId, age);
         }
         model.addAttribute("users", forumUsers);
+        model.addAttribute("interests", skillService.listAll());
         model.addAttribute("types", ForumUserType.values());
         return "list";
     }

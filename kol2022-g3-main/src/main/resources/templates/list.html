@@ -9,12 +9,13 @@
     <!-- The form below should invoke the method ForumUsersController.showList -->
     <form id="filter-form">
         <label for="f1">Age</label>
-        <input id="f1" type="number"/>
+        <input id="f1" type="number" name="age"/>
         <label for="f2">Interest</label>
-        <select id="f2">
+        <select id="f2" name="interestId">
             <option value="">All</option>
             <!-- For each interest you should have one <option> like below  -->
-            <option> [interest]</option>
+            <option th:each="interest : ${interests}" th:text="${interest.name}" th:value="${interest.id}"> [interest]
+            </option>
         </select>
         <button id="filter" type="submit">Filter</button>
     </form>
