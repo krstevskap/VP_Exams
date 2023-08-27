@@ -1,5 +1,8 @@
 package mk.ukim.finki.wp.kol2023.g1.model;
 
+import javax.persistence.*;
+
+@Entity
 public class Player {
 
     public Player() {
@@ -14,6 +17,8 @@ public class Player {
         this.votes = 0;
     }
 
+    @Id
+    @GeneratedValue
     private Long id;
 
     private String name;
@@ -22,8 +27,10 @@ public class Player {
 
     private Double pointsPerGame;
 
+    @Enumerated(value = EnumType.STRING)
     private PlayerPosition position;
 
+    @ManyToOne
     private Team team;
 
     private Integer votes = 0;
